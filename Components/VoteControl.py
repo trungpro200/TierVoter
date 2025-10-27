@@ -15,14 +15,14 @@ class VoteControl:
         VoteControl.channel[channel.id] = self
         self.publicPanel: PublicPanel = PublicPanel()
         self.controlPanel: ControlView = ControlView()
-        
+
         self.PublicChannel = channel
         self.Host = host
         self.renderer = None # For removing old instances since garbage collection is weird
         self.renderer: TemplateRenderer = TemplateRenderer(show_preview=False, tiers=default_tiers)
         
         #Games Properties
-        self.Participants = set([334528593323622402]) # Set to store user IDs of participants
+        self.Participants = set([]) # Set to store user IDs of participants
         self.status = "Waiting for participants"
         self.Votes: dict[int, VoteHandler] = {}  # Dictionary to store votes {user_id: VoteHandler}
         self.ParticipantArray = []
