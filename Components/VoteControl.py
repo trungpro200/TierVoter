@@ -8,6 +8,7 @@ from asyncio import create_task, gather
 
 
 default_tiers = ["Maid", "S", "A", "B", "C", "D", "E"]
+default_limits = {"Maid": 2}
 
 class VoteControl:
     channel: dict[int, "VoteControl"] = {} # Dictionary to store active VoteControl instances by channel ID
@@ -22,10 +23,11 @@ class VoteControl:
         self.renderer: TemplateRenderer = TemplateRenderer(show_preview=False, tiers=default_tiers)
         
         #Games Properties
-        self.Participants = set([]) # Set to store user IDs of participants
+        self.Participants = set([697949954295070891, 757590012652027924, 772089993542762516]) # Set to store user IDs of participants
         self.status = "Waiting for participants"
         self.Votes: dict[int, VoteHandler] = {}  # Dictionary to store votes {user_id: VoteHandler}
         self.ParticipantArray = []
+        self.voteCounter = VoteCounter()
 
 
     async def start(self):
@@ -134,6 +136,13 @@ class VoteControl:
                                 )
         create_task(self.update_tierboard())
         
+        #Update vote counts
+        for voter_id in self.Votes[self.votePanel.stage_user.id].Tiers:
+            voted_tier = self.Votes[self.votePanel.stage_user.id].Tiers[voter_id]
+            self.voteCounter.add_vote(voter_id, voted_tier)
+        
+        print(self.voteCounter)
+        
         #Move to next participant
         participant_ID = self.ParticipantArray.pop(0)
         participant = self.PublicMessage.guild.get_member(participant_ID)
@@ -216,17 +225,24 @@ class VoteControl:
         self.remove()
 
     async def cast_vote(self, interaction: discord.Interaction, tier: str):
+        if self.voteCounter.get_tier_vote_count(interaction.user.id, tier) >= default_limits.get(tier, float('inf')):
+            await interaction.followup.send(f"You have reached the vote limit for {tier}.", ephemeral=True)
+            return
+
         if self.votePanel.stage_user.id not in self.Votes:
             self.Votes[self.votePanel.stage_user.id] = VoteHandler(self.votePanel.stage_user, default_tiers)
 
         self.Votes[self.votePanel.stage_user.id].Tiers[interaction.user.id] = tier
         self.votePanel.set_footer(text=f"Voted: {len(self.Votes[self.votePanel.stage_user.id].Tiers)}")
         create_task(self.PublicMessage.edit(embed=self.votePanel))
+        create_task(interaction.followup.send(f"You voted {tier} for {self.votePanel.stage_user.name}!", ephemeral=True))
+        
+        return
     
 class VoteHandler:
     def __init__(self, user: discord.User, tiers: list[str] = []):
         self.User = user
-        self.Tiers: dict[int, str] = dict()  # Dictionary to store votes {caster_id: tier}
+        self.Tiers: dict[int, str] = dict()  # Dictionary to store votes {voter_id: tier}
         self.TiersList = tiers  # List of possible tiers
     
     def calc_results(self) -> str:
@@ -247,3 +263,22 @@ class VoteHandler:
                 scores[i] = 0
         
         return self.TiersList[-1]  # Fallback to lowest tier(just in case)
+
+
+class VoteCounter: # Used for counting votes per user
+    def __init__(self):
+        self.counters: dict[int, dict[str, int]] = {}  # {user_id: {tier: count}}
+
+    def add_vote(self, voter_id: int, tier: str):
+        if voter_id not in self.counters:
+            self.counters[voter_id] = {}
+        self.counters[voter_id][tier] = self.counters[voter_id].get(tier, 0) + 1
+
+    def get_votes(self, user_id: int) -> dict[str, int]:
+        return self.counters.get(user_id, {})
+    
+    def get_tier_vote_count(self, user_id: int, tier: str) -> int:
+        return self.get_votes(user_id).get(tier, 0)
+    
+    def __repr__(self):
+        return f"VoteCounter:\n" + "\n".join([f"User {uid}: {votes}" for uid, votes in self.counters.items()])

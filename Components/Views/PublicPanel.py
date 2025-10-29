@@ -65,6 +65,5 @@ class VoteButton(discord.ui.Button):
         
         if self.cast_vote:
             create_task(self.cast_vote(interaction, self.label))
-            create_task(interaction.followup.send(f"You voted {self.label} for {self.stage_user.name}!", ephemeral=True))
             return
 

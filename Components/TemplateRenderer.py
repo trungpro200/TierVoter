@@ -113,34 +113,35 @@ class TemplateRenderer:
 if __name__ == "__main__":
     renderer = TemplateRenderer(
         tiers=["SS", "S", "A", "B", "Maid", "No life"],
-        items=[
-            ["https://cdn.discordapp.com/avatars/1126495387683926036/ae020f5b5b3f8c695e88c15abade5689.png?format=webp&quality=lossless&width=282&height=282", "Maid"],
-            ["https://cdn.discordapp.com/avatars/1126495387683926036/ae020f5b5b3f8c695e88c15abade5689.png?format=webp&quality=lossless&width=282&height=282", "Maid"],
-            ["https://cdn.discordapp.com/avatars/1126495387683926036/ae020f5b5b3f8c695e88c15abade5689.png?format=webp&quality=lossless&width=282&height=282", "Maid"],
-            ["https://cdn.discordapp.com/avatars/1126495387683926036/ae020f5b5b3f8c695e88c15abade5689.png?format=webp&quality=lossless&width=282&height=282", "Maid"],
-            ["https://cdn.discordapp.com/avatars/1126495387683926036/ae020f5b5b3f8c695e88c15abade5689.png?format=webp&quality=lossless&width=282&height=282", "Maid"],
-            ["https://cdn.discordapp.com/avatars/1126495387683926036/ae020f5b5b3f8c695e88c15abade5689.png?format=webp&quality=lossless&width=282&height=282", "Maid"],
-            ["https://cdn.discordapp.com/avatars/1126495387683926036/ae020f5b5b3f8c695e88c15abade5689.png?format=webp&quality=lossless&width=282&height=282", "Maid"],
-            ["https://cdn.discordapp.com/avatars/1126495387683926036/ae020f5b5b3f8c695e88c15abade5689.png?format=webp&quality=lossless&width=282&height=282", "Maid"],
-            ["https://cdn.discordapp.com/avatars/1126495387683926036/ae020f5b5b3f8c695e88c15abade5689.png?format=webp&quality=lossless&width=282&height=282", "Maid"],
-            ["https://cdn.discordapp.com/avatars/1126495387683926036/ae020f5b5b3f8c695e88c15abade5689.png?format=webp&quality=lossless&width=282&height=282", "Maid"],
-            ["https://cdn.discordapp.com/avatars/1126495387683926036/ae020f5b5b3f8c695e88c15abade5689.png?format=webp&quality=lossless&width=282&height=282", "Maid"],
-            ["https://cdn.discordapp.com/avatars/1126495387683926036/ae020f5b5b3f8c695e88c15abade5689.png?format=webp&quality=lossless&width=282&height=282", "Maid"],
-            ["https://cdn.discordapp.com/avatars/334528593323622402/d556ed8ba7449dd672105d63799827f9.png", "S"],
-            ["https://cdn.discordapp.com/avatars/334528593323622402/d556ed8ba7449dd672105d63799827f9.png", "S"],
-            ["https://cdn.discordapp.com/avatars/334528593323622402/d556ed8ba7449dd672105d63799827f9.png", "S"],
-            ["https://cdn.discordapp.com/avatars/334528593323622402/d556ed8ba7449dd672105d63799827f9.png", "S"],
-            ["https://cdn.discordapp.com/avatars/334528593323622402/d556ed8ba7449dd672105d63799827f9.png", "S"],
-            ["https://cdn.discordapp.com/avatars/334528593323622402/d556ed8ba7449dd672105d63799827f9.png", "S"],
-            ["https://cdn.discordapp.com/avatars/334528593323622402/d556ed8ba7449dd672105d63799827f9.png", "S"],
-            ["https://cdn.discordapp.com/avatars/334528593323622402/d556ed8ba7449dd672105d63799827f9.png", "S"],
-            ["https://cdn.discordapp.com/avatars/334528593323622402/d556ed8ba7449dd672105d63799827f9.png", "S"],
-            ["https://cdn.discordapp.com/avatars/334528593323622402/d556ed8ba7449dd672105d63799827f9.png", "S"],
-            ["https://cdn.discordapp.com/avatars/334528593323622402/d556ed8ba7449dd672105d63799827f9.png", "S"],
-            ["https://cdn.discordapp.com/avatars/334528593323622402/d556ed8ba7449dd672105d63799827f9.png", "S"],
-            ["https://cdn.discordapp.com/avatars/334528593323622402/d556ed8ba7449dd672105d63799827f9.png", "S"],
-        ],
-        show_preview=True,
+        show_preview=True
     )
+    
+    renderer.items=[
+            ["https://cdn.discordapp.com/avatars/1126495387683926036/ae020f5b5b3f8c695e88c15abade5689.png?format=webp&quality=lossless&width=282&height=282", "Maid"],
+            ["https://cdn.discordapp.com/avatars/1126495387683926036/ae020f5b5b3f8c695e88c15abade5689.png?format=webp&quality=lossless&width=282&height=282", "Maid"],
+            ["https://cdn.discordapp.com/avatars/1126495387683926036/ae020f5b5b3f8c695e88c15abade5689.png?format=webp&quality=lossless&width=282&height=282", "Maid"],
+            ["https://cdn.discordapp.com/avatars/1126495387683926036/ae020f5b5b3f8c695e88c15abade5689.png?format=webp&quality=lossless&width=282&height=282", "Maid"],
+            ["https://cdn.discordapp.com/avatars/1126495387683926036/ae020f5b5b3f8c695e88c15abade5689.png?format=webp&quality=lossless&width=282&height=282", "Maid"],
+            ["https://cdn.discordapp.com/avatars/1126495387683926036/ae020f5b5b3f8c695e88c15abade5689.png?format=webp&quality=lossless&width=282&height=282", "Maid"],
+            ["https://cdn.discordapp.com/avatars/1126495387683926036/ae020f5b5b3f8c695e88c15abade5689.png?format=webp&quality=lossless&width=282&height=282", "Maid"],
+            ["https://cdn.discordapp.com/avatars/1126495387683926036/ae020f5b5b3f8c695e88c15abade5689.png?format=webp&quality=lossless&width=282&height=282", "Maid"],
+            ["https://cdn.discordapp.com/avatars/1126495387683926036/ae020f5b5b3f8c695e88c15abade5689.png?format=webp&quality=lossless&width=282&height=282", "Maid"],
+            ["https://cdn.discordapp.com/avatars/1126495387683926036/ae020f5b5b3f8c695e88c15abade5689.png?format=webp&quality=lossless&width=282&height=282", "Maid"],
+            ["https://cdn.discordapp.com/avatars/1126495387683926036/ae020f5b5b3f8c695e88c15abade5689.png?format=webp&quality=lossless&width=282&height=282", "Maid"],
+            ["https://cdn.discordapp.com/avatars/1126495387683926036/ae020f5b5b3f8c695e88c15abade5689.png?format=webp&quality=lossless&width=282&height=282", "Maid"],
+            ["https://cdn.discordapp.com/avatars/334528593323622402/d556ed8ba7449dd672105d63799827f9.png", "S"],
+            ["https://cdn.discordapp.com/avatars/334528593323622402/d556ed8ba7449dd672105d63799827f9.png", "S"],
+            ["https://cdn.discordapp.com/avatars/334528593323622402/d556ed8ba7449dd672105d63799827f9.png", "S"],
+            ["https://cdn.discordapp.com/avatars/334528593323622402/d556ed8ba7449dd672105d63799827f9.png", "S"],
+            ["https://cdn.discordapp.com/avatars/334528593323622402/d556ed8ba7449dd672105d63799827f9.png", "S"],
+            ["https://cdn.discordapp.com/avatars/334528593323622402/d556ed8ba7449dd672105d63799827f9.png", "S"],
+            ["https://cdn.discordapp.com/avatars/334528593323622402/d556ed8ba7449dd672105d63799827f9.png", "S"],
+            ["https://cdn.discordapp.com/avatars/334528593323622402/d556ed8ba7449dd672105d63799827f9.png", "S"],
+            ["https://cdn.discordapp.com/avatars/334528593323622402/d556ed8ba7449dd672105d63799827f9.png", "S"],
+            ["https://cdn.discordapp.com/avatars/334528593323622402/d556ed8ba7449dd672105d63799827f9.png", "S"],
+            ["https://cdn.discordapp.com/avatars/334528593323622402/d556ed8ba7449dd672105d63799827f9.png", "S"],
+            ["https://cdn.discordapp.com/avatars/334528593323622402/d556ed8ba7449dd672105d63799827f9.png", "S"],
+            ["https://cdn.discordapp.com/avatars/334528593323622402/d556ed8ba7449dd672105d63799827f9.png", "S"]
+        ]
     renderer.render()
     # print(colorsys.hls_to_rgb(0.33, 0.5, 1))
