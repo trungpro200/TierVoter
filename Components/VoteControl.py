@@ -10,6 +10,9 @@ from asyncio import create_task, gather
 default_tiers = ["Maid", "S", "A", "B", "C", "D", "E"]
 default_limits = {"Maid": 2}
 
+avatars_except = {334528593323622402 : "https://media.discordapp.net/attachments/1109856204374683768/1433729472141463623/content.png?ex=690668df&is=6905175f&hm=b584654bc6d8b37c29ac36b9098c1f93da4b60e4b287dcd3e21faa9847b29522&=&format=webp&quality=lossless&width=953&height=953",
+                  1126495387683926036: "https://media.discordapp.net/attachments/1420435951376662671/1421833746075615242/raw.png?ex=6906a39d&is=6905521d&hm=6adb5fd3686f2817bcd080bee1af2c6fafdff7fea578844b559e6c2873320145&=&format=webp&quality=lossless&width=953&height=953"}
+
 class VoteControl:
     channel: dict[int, "VoteControl"] = {} # Dictionary to store active VoteControl instances by channel ID
     def __init__(self, channel: discord.TextChannel, host: discord.User):
@@ -23,11 +26,12 @@ class VoteControl:
         self.renderer: TemplateRenderer = TemplateRenderer(show_preview=False, tiers=default_tiers)
         
         #Games Properties
-        self.Participants = set([697949954295070891, 757590012652027924, 772089993542762516]) # Set to store user IDs of participants
+        self.Participants = set([]) # Set to store user IDs of participants
         self.status = "Waiting for participants"
         self.Votes: dict[int, VoteHandler] = {}  # Dictionary to store votes {user_id: VoteHandler}
         self.ParticipantArray = []
         self.voteCounter = VoteCounter()
+        
 
 
     async def start(self):
@@ -73,8 +77,7 @@ class VoteControl:
     
     async def on_join_button_click(self, interaction: discord.Interaction):
         if interaction.user.id in self.Participants:
-            self.Participants.remove(interaction.user.id)
-            create_task(interaction.response.send_message("You have successfully resigned from the tier list voting!", ephemeral=True))
+            create_task(interaction.response.send_message("You already joined the tier list voting!", ephemeral=True))
         else:
             self.Participants.add(interaction.user.id)
             create_task(interaction.response.send_message("You have successfully joined the tier list voting!", ephemeral=True))
@@ -130,8 +133,13 @@ class VoteControl:
             self.Votes[self.votePanel.stage_user.id] = VoteHandler(self.votePanel.stage_user, default_tiers)
         
         #Update tierboard before moving to next vote
+        avatar_url = self.votePanel.stage_user.avatar.url if self.votePanel.stage_user.avatar else self.votePanel.stage_user.default_avatar.url
+        if self.votePanel.stage_user.id in avatars_except:
+            print("Using excepted avatar for", self.votePanel.stage_user.id)
+            avatar_url = avatars_except[self.votePanel.stage_user.id]
+        
         self.renderer.add_item(
-                                self.votePanel.stage_user.avatar.url if self.votePanel.stage_user.avatar else self.votePanel.stage_user.default_avatar.url,
+                                avatar_url,
                                 self.Votes[self.votePanel.stage_user.id].calc_results()
                                 )
         create_task(self.update_tierboard())
@@ -141,7 +149,7 @@ class VoteControl:
             voted_tier = self.Votes[self.votePanel.stage_user.id].Tiers[voter_id]
             self.voteCounter.add_vote(voter_id, voted_tier)
         
-        print(self.voteCounter)
+        # print(self.voteCounter)
         
         #Move to next participant
         participant_ID = self.ParticipantArray.pop(0)
@@ -177,6 +185,7 @@ class VoteControl:
         participant = self.PublicMessage.guild.get_member(participant_ID)
 
         self.votePanel = VotePanel(tiers=default_tiers)
+        self.votePanel.add_avatar_exception(avatars_except)
         self.votePanel.set_stage_user(participant)
         self.votePanel.create_vote_buttons(
             cast_vote=self.cast_vote
@@ -207,8 +216,15 @@ class VoteControl:
         self.publicPanel.embed.set_footer(text="Final Tier List")
         self.publicPanel.embed.set_image(url="attachment://tierboard.png")
         
+        
+        avatar_url = self.votePanel.stage_user.avatar.url if self.votePanel.stage_user.avatar else self.votePanel.stage_user.default_avatar.url
+        
+        if self.votePanel.stage_user.id in avatars_except:
+            print("Using excepted avatar for", self.votePanel.stage_user.id)
+            avatar_url = avatars_except[self.votePanel.stage_user.id]
+        
         self.renderer.add_item(
-                                self.votePanel.stage_user.avatar.url if self.votePanel.stage_user.avatar else self.votePanel.stage_user.default_avatar.url,
+                                avatar_url,
                                 self.Votes[self.votePanel.stage_user.id].calc_results()
                                 )
         

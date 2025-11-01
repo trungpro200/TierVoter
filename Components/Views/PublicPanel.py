@@ -40,7 +40,12 @@ class VotePanel(discord.ui.View, discord.Embed):
     def set_stage_user(self, user: discord.User):
         self.title = f"Voting for {user.name}'s tier"
         self.stage_user = user
-        self.set_image(url=user.avatar.url if user.avatar else user.default_avatar.url)
+        
+        avatar_url = user.avatar.url if user.avatar else user.default_avatar.url
+        if hasattr(self, 'avatar_excepts') and user.id in self.avatar_excepts:
+            avatar_url = self.avatar_excepts[user.id]
+
+        self.set_image(url=avatar_url)
 
     def create_vote_buttons(self, cast_vote: Callable[[discord.Interaction, int, str], None] = None):
         self.clear_items()
@@ -49,6 +54,9 @@ class VotePanel(discord.ui.View, discord.Embed):
                 continue
             vote_button = VoteButton(label=tier, stage_user=self.stage_user, cast_vote=cast_vote, id=100 + i)
             self.add_item(vote_button)
+    
+    def add_avatar_exception(self, excepts: dict[int, str]):
+        self.avatar_excepts = excepts
 
 class VoteButton(discord.ui.Button):
     def __init__(self, label: str, stage_user: discord.User, cast_vote: Callable[[discord.Interaction, int, str], None] = None, id: int = None):
